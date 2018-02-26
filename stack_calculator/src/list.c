@@ -9,7 +9,7 @@ struct List *new_list(void)
 
 struct Node *new_node(void *data)
 {
-	struct Node *newNode = (struct Node)malloc(sizeof(struct Node));
+	struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
 	*newNode = (struct Node){NULL,data};
 	return newNode;
 }
@@ -31,4 +31,20 @@ void remove_first(struct List *list)
 		free(removeNode);
 		list->size--;
 	}
+}
+
+void *get_first(struct List *list)
+{
+	if (list->first != NULL)
+	{
+		return list->first->data;
+	}
+	return NULL;
+}
+
+void remove_list(struct List *list)
+{
+	while (list->size > 0)
+		remove_first(list);
+	free(list);
 }
