@@ -20,68 +20,74 @@ int main(int argc,char *argv[])
 	}
 
 	/* Lägg in argString i köerna. */
-	for (int i = 0; i <= strlen(argString); i++)
+	int i = 0;
+	for (; argString[i] != '\0'; i++)
 	{
 		if (argString[i] == '*' || argString[i] == '/' || argString[i] == '+' || argString[i] == '-')
 		{
 			// Högre prioritet.
-			if ((argString[i] == '+' || argString[i] == '-') && ((char)*get_first(operationList) == '*' || (char)*get_first(operationList) == '/'))
+			if (get_first(operationList) != NULL)
 			{
-				double firstNumber = (double)*get_first(numberList),combinedNumber;
-				remove_first(numberList);
-				double secondNumber = (double)*get_first(numberList);
-				remove_first(numberList);
-				if ((char)*get_first(operationList) == '+')
+				if ((argString[i] == '+' || argString[i] == '-') && (*(char*)get_first(operationList) == '*' || *(char*)get_first(operationList) == '/'))
 				{
-					combinedNumber = firstNumber + secondNumber;
+					double firstNumber = *(double*)get_first(numberList),combinedNumber;
+					remove_first(numberList);
+					double secondNumber = *(double*)get_first(numberList);
+					remove_first(numberList);
+					if (*(char*)get_first(operationList) == '+')
+					{
+						combinedNumber = firstNumber + secondNumber;
+					}
+					else if (*(char*)get_first(operationList) == '-')
+					{
+						combinedNumber = firstNumber - secondNumber;
+					}
+					add_first(numberList,&combinedNumber);
+					remove_first(operationList);
 				}
-				else if ((char)*get_first(operationList) == '-')
-				{
-					combinedNumber = firstNumber - secondNumber;
-				}
-				add_first(numberList,combined);
-				remove_first(operationList);
 			}
-			add_first(operationList,argString[i]);
+			add_first(operationList,&argString[i]);
 		}
 		else if (isdigit(argString[i]))
 		{
-			add_first(numberList,argString[i]-'0');
+			double number = argString[i]-'0';
+			add_first(numberList,&number);
 		}
-		else if (i == strlen(argString))
+	}
+		if (argString[i] == '\0')
 		{
-			for (operationList->size > 0)
+			while (operationList->size > 0)
 			{
-				double firstNumber = (double)*get_first(numberList),combinedNumber;
+				double firstNumber = *(double*)get_first(numberList),combinedNumber;
 				remove_first(numberList);
-				double secondNumber = (double)*get_first(numberList);
+				double secondNumber = *(double*)get_first(numberList);
 				remove_first(numberList);
-				if ((char)*get_first(operationList) == '*')
+				if (*(char*)get_first(operationList) == '*')
 				{
 					combinedNumber = firstNumber * secondNumber;
-					add_first(numberList,combinedNumber);
+					add_first(numberList,&combinedNumber);
 				}
-				else if ((char)*get_first(operationList) == '/')
+				else if (*(char*)get_first(operationList) == '/')
 				{
 					combinedNumber = firstNumber / secondNumber;
-					add_first(numberList,combinedNumber);
+					add_first(numberList,&combinedNumber);
 				}
-				else if ((char)*get_first(operationList) == '+')
+				else if (*(char*)get_first(operationList) == '+')
 				{
 					combinedNumber = firstNumber + secondNumber;
-					add_first(numberList,combinedNumber);
+					add_first(numberList,&combinedNumber);
 				}
-				else if ((char)*get_first(operationList) == '-')
+				else if (*(char*)get_first(operationList) == '-')
 				{
 					combinedNumber = firstNumber - secondNumber;
-					add_first(numberList,combinedNumber);
+					add_first(numberList,&combinedNumber);
 				}
 				remove_first(operationList);
 			}
 		}
-	}
-	printf("%lf\n",(double)*get_first(numberList));
+	printf("%lf\n",*(double*)get_first(numberList));
 	remove_list(numberList);
 	remove_list(operationList);
+	free(argString);
 	exit(0);
 }
