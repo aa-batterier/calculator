@@ -1,4 +1,4 @@
-#include "calculator.h"
+#include "stack_calculator.h"
 
 struct List *new_list(void)
 {
@@ -7,19 +7,18 @@ struct List *new_list(void)
 	return newList;
 }
 
-struct Node *new_node(void *value)
+struct Node *new_node(void *data)
 {
 	struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
-	*newNode = (struct Node){NULL,value};
+	*newNode = (struct Node){NULL,data};
 	return newNode;
 }
 
-void add_first(struct List *list,void *value)
+void add_first(struct List *list,void *data)
 {
-	void *newValue = new_value(value);
-	struct Node *newNode = new_node(newValue);
+	struct Node *newNode = new_node(data);
 	newNode->next = list->first;
-	list->first = newNode;
+	list->first = newNode->next;
 	list->size++;
 }
 
@@ -29,33 +28,23 @@ void remove_first(struct List *list)
 	if (removeNode != NULL)
 	{
 		list->first = removeNode->next;
-		free(removeNode->value);
 		free(removeNode);
 		list->size--;
 	}
-}
-
-void remove_list(struct List *list)
-{
-	while (list->size > 0)
-	{
-		remove_first(list);
-	}
-	free(list);
-}
-
-void *new_value(void *value)
-{
-	void *newValue = malloc(1);
-	*(double*)newValue = *(double*)value;
-	return newValue;
 }
 
 void *get_first(struct List *list)
 {
 	if (list->first != NULL)
 	{
-		return list->first->value;
+		return list->first->data;
 	}
 	return NULL;
+}
+
+void remove_list(struct List *list)
+{
+	while (list->size > 0)
+		remove_first(list);
+	free(list);
 }
