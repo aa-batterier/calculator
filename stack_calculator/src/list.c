@@ -1,4 +1,4 @@
-#include "calculator.h"
+#include "list.h"
 
 struct List *new_list(void)
 {
@@ -7,55 +7,40 @@ struct List *new_list(void)
 	return newList;
 }
 
-struct Node *new_node(void *value)
+struct Node *new_node(int data)
 {
 	struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
-	*newNode = (struct Node){NULL,value};
+	*newNode = (struct Node){NULL,data};
 	return newNode;
 }
 
-void add_first(struct List *list,void *value)
+void add_first(struct List *list,int data)
 {
-	void *newValue = new_value(value);
-	struct Node *newNode = new_node(newValue);
-	newNode->next = list->first;
-	list->first = newNode;
-	list->size++;
+	struct Node *newNode = new_node(data);
+	newNode->_next = list->_first;	
+	list->_first = newNode;
+	list->_size++;
 }
 
 void remove_first(struct List *list)
 {
-	struct Node *removeNode = list->first;
-	if (removeNode != NULL)
-	{
-		list->first = removeNode->next;
-		free(removeNode->value);
-		free(removeNode);
-		list->size--;
-	}
+	assert(list->_first != NULL);
+	struct Node *removeNode = list->_first;
+	list->_first = removeNode->_next;
+	free(removeNode);
+	list->_size--;
+}
+
+int get_first(struct List *list)
+{
+	assert(list->_first != NULL);
+	return list->_first->_data;
 }
 
 void remove_list(struct List *list)
 {
-	while (list->size > 0)
-	{
+	assert(list != NULL);
+	while (list->_size)
 		remove_first(list);
-	}
 	free(list);
-}
-
-void *new_value(void *value)
-{
-	void *newValue = malloc(1);
-	*(double*)newValue = *(double*)value;
-	return newValue;
-}
-
-void *get_first(struct List *list)
-{
-	if (list->first != NULL)
-	{
-		return list->first->value;
-	}
-	return NULL;
 }
