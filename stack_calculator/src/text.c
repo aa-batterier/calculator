@@ -1,4 +1,4 @@
-#include "calculate.h"
+#include "calculator.h"
 
 /*int read_line(char *a,int n)
 {

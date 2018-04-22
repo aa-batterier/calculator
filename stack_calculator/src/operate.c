@@ -1,4 +1,4 @@
-#include "calculate.h"
+#include "calculator.h"
 
 /* Funktion som slår isär strängen med argumenten i till de olika listorna. */
 int split_string(char *string,struct List *numberList,struct List *operatorList)
