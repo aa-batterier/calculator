@@ -33,8 +33,10 @@ void remove_first(struct List *list)
 
 int get_first(struct List *list)
 {
-	assert(list->_first != NULL);
-	return list->_first->_data;
+	//assert(list->_first != NULL);
+	if (list->_first != NULL)
+		return list->_first->_data;
+	return 0;
 }
 
 void remove_list(struct List *list)

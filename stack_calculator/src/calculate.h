@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+#include <ctype.h>
 #include <assert.h>
 
 struct List
@@ -16,10 +21,10 @@ struct Node
 
 /* list.c */
 struct List *new_list(void);
-struct Node *new_node(void *data);
-void add_first(struct List *list,void *data);
+struct Node *new_node(int data);
+void add_first(struct List *list,int data);
 void remove_first(struct List *list);
-void *get_first(struct List *list);
+int get_first(struct List *list);
 void remove_list(struct List *list);
 
 /* text.c */

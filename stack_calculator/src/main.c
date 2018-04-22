@@ -1,4 +1,4 @@
-#include "calculate.h"
+#include "calculate.h" 
 
 int main(int argc,char **argv)
 {
@@ -7,7 +7,7 @@ int main(int argc,char **argv)
 		fprintf(stderr,"usage: %s <calculation...\n",argv[0]);
 		exit(1);
 	}
-	struct *numberList = new_list(),*operatorList = new_list();
+	struct List *numberList = new_list(),*operatorList = new_list();
 	char *string = combine_arg(argc,argv);
 	if (!split_string(string,numberList,operatorList))
 	{

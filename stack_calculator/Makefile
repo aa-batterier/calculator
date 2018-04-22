@@ -1,16 +1,7 @@
-all: bin/stack_calculator
+all: bin/calculator
 
-lib/list.o: src/list.c src/calculator.h
-	gcc -Wall -g -c -o $@ src/list.c
-
-lib/main.o: src/main.c src/calculator.h
-	gcc -Wall -g -c -o $@ src/main.c
-
-lib/operate.o: src/operate.c src/calculator.h
-	gcc -Wall -g -c -o $@ src/operate.c
-
-bin/stack_calculator: lib/list.o lib/main.o lib/operate.o src/calculator.h
-	gcc -Wall -g -o $@ lib/list.o lib/main.o lib/operate.o
+bin/calculator: src/list.c src/main.c src/operate.c src/text.c src/calculate.h
+	gcc -Wall -g -o $@ src/list.c src/main.c src/text.c src/operate.c -lm
 
 clean:
 	rm -v bin/* lib/*

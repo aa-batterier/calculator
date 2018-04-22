@@ -35,7 +35,7 @@ char *combine_arg(int argc,char **argv)
 	/* Kör med 1 som start, pga. vill inte ha med programmets namn. */
 	for (int i = 1; i < argc; i++)
 	{
-		int argLen = strlen(argv[i])
+		int argLen = strlen(argv[i]);
 		stringSize += argLen+1;
 		string = (char*)realloc(string,stringSize);
 		strcat(string,argv[i]);
@@ -55,7 +55,7 @@ void remove_white(char *string)
 			temp[i] = string[j];
 			i++;
 		}
-	temp[newLen] = '\0';
+	temp[i] = '\0';
 	i = 0;
 	for (; temp[i] != '\0'; i++)
 		string[i] = temp[i];

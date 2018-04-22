@@ -3,15 +3,14 @@
 /* Funktion som slår isär strängen med argumenten i till de olika listorna. */
 int split_string(char *string,struct List *numberList,struct List *operatorList)
 {
-	for (char *p = string; *p != '\0'; p++)
+	for (char *p = string; *p != '\0';)
 	{
 		/* Slår ihop talet. */
-		if (isdigit(*p));
+		if (isdigit(*p))
 		{
 			int numberSize = 0;
-			for (; isdigit(*p); numberSize++);
-			add_first(numberList,to_number(p,p[numberSize]));
-			p += numberSize;
+			for (; isdigit(*p); numberSize++,p++);
+			add_first(numberList,to_number(p-numberSize,p));
 		}
 		/* Om det är en operand. */
 		else if (is_operator(*p))
@@ -19,10 +18,11 @@ int split_string(char *string,struct List *numberList,struct List *operatorList)
 			if (operator_value(*p) < operator_value(get_first(operatorList)))
 				add_first(numberList,calculate(numberList,operatorList));
 			add_first(operatorList,*p);
+			p++;
 		}
 		else
 		{
-			fprintf(stderr,"Doesn't recognize the \'%c\' operator!",*p);
+			fprintf(stderr,"Doesn't recognize the \'%c\' operator!\n",*p);
 			return 0;
 		}
 	}
@@ -32,8 +32,8 @@ int split_string(char *string,struct List *numberList,struct List *operatorList)
 /* Gör om en sträng till ett heltal. */
 int to_number(char *begin,char *end)
 {
-	int sum = 0;
-	for (int i = pow(10,end-begin-1),p = begin; p < end; i /= 10,p++)
+	int sum = 0,i = pow(10,end-begin-1);
+	for (char *p = begin; p < end; i /= 10,p++)
 		sum += (*p-'0')*i;
 	return sum;
 }
@@ -52,7 +52,7 @@ int is_operator(const int op)
 /* Plockar fram värdet på en operator. */
 int operator_value(const int operator)
 {
-	if (operator == '+' || operator == '-')
+	if (operator == '+' || operator == '-' || operator == 0)
 		return 0;
 	return 1;
 }
@@ -60,20 +60,22 @@ int operator_value(const int operator)
 /* Beräknar första och andra talet i stacken med första operatorn i stacken. */
 int calculate(struct List *numberList,struct List *operatorList)
 {
-	int first = get_first(numberList);
+	int first = get_first(numberList); //Sist in, först ut.
 	remove_first(numberList);
-	int second = get_first(numberList);
+	int second = get_first(numberList); //Först in, sist ut.
 	remove_first(numberList);
-	switch(get_first(operatorList))
+	int operator = get_first(operatorList);
+	remove_first(operatorList);
+	switch(operator)
 	{
 		case '+':
 			return first + second;
 		case '-':
-			return first - second;
+			return second - first;
 		case '*':
 			return first * second;
 		case '/':
-			if (second == 0)
+			if (first == 0)
 			{
 				fprintf(stderr,"Can't divide by zero!");
 				/* Borde inte göra exit() här, men jag vet inte riktigt hur jag ska göra
@@ -81,14 +83,17 @@ int calculate(struct List *numberList,struct List *operatorList)
 				 * värden som inte behöver betyda fel. */
 				exit(1);
 			}
-			return first / second;
+			return second / first;
+		default:
+			fprintf(stderr,"No opeator match.\n");
+			exit(1);
 	}
-	remove_first(operatorList);
+	return 0;
 }
 
 /* Beräknar ihop allt i stacken. */
 void combined_calculate(struct List *numberList,struct List *operatorList)
 {
-	while (numberList->size && operatorList->size)
+	while (numberList->_size && operatorList->_size)
 		add_first(numberList,calculate(numberList,operatorList));
 }
