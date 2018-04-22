@@ -1,56 +1,22 @@
-#include "calculator.h"
+#include "calculate.h"
 
-int main(int argc,char *argv[])
+int main(int argc,char **argv)
 {
-	if (argc < 2)
+	if (argc <= 1)
 	{
-		fprintf(stderr,"usage: %s <equations....\n",argv[0]);
+		fprintf(stderr,"usage: %s <calculation...\n",argv[0]);
 		exit(1);
 	}
-	struct List *numberList = new_list(),*operatorList = new_list();
-	char *argString = combined_string(argv,argc);
-	for (int i = 0; argString[i] != '\0'; i++)
+	struct *numberList = new_list(),*operatorList = new_list();
+	char *string = combine_arg(argc,argv);
+	if (!split_string(string,numberList,operatorList))
 	{
-		int isNumberOrOperator = is_number_or_operator(argString[i]);
-		if (isNumberOrOperator == 0)
-		{
-			char *listOperator = (char*)get_first(operatorList);
-			if (high_priority(argString[i],listOperator))
-			{
-				double first = *(double*)get_first(numberList);
-				remove_first(numberList);
-				double second = *(double*)get_first(numberList);
-				remove_first(numberList);
-				double combinedNumber = calculate(*listOperator,first,second);
-				add_first(numberList,&combinedNumber);
-				remove_first(operatorList);
-			}
-			add_first(operatorList,&argString[i]);
-		}
-		else if (isNumberOrOperator == 1)
-		{
-			double newNumber = argString[i]-'0';
-			add_first(numberList,&newNumber);
-		}
-		else
-		{
-			fprintf(stderr,"wrong input: %c\n",argString[i]);
-			exit(1);
-		}
+		fprintf(stderr,"split_string failed\n");
+		exit(1);
 	}
-	free(argString);
-	while (operatorList->size > 0)
-	{
-		char listOperator = *(char*)get_first(operatorList);
-		remove_first(operatorList);
-		double first = *(double*)get_first(numberList);
-		remove_first(numberList);
-		double second = *(double*)get_first(numberList);
-		remove_first(numberList);
-		double combinedNumber = calculate(listOperator,first,second);
-		add_first(numberList,&combinedNumber);
-	}
-	printf("%g\n",*(double*)get_first(numberList));
+	remove_arg_string(string);
+	combined_calculate(numberList,operatorList);
+	printf(" = %d\n",get_first(numberList));
 	remove_list(numberList);
 	remove_list(operatorList);
 	exit(0);
