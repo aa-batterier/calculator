@@ -1,18 +1,39 @@
+/*
+ * Information about sourcedevelopment.
+ * -------------------------------------
+ *  Initial creator: Andreas Johansson.
+ *  Date created: 21-04-2018
+ *  Last updated by: Andreas Johansson.
+ *  Date for update: 21-04-2018
+ */
+
+/*
+ * File: operate.c 
+ * --------------
+ *  Provides the functions which do all the calculations
+ *  and comparison in the program. This is the engine of
+ *  the program.
+ */
+
 #include "calculator.h"
 
-/* Funktion som slår isär strängen med argumenten i till de olika listorna. */
+/*
+ * Function: split_string
+ * Usage: Splits the string.
+ * --------------------------
+ */
 int split_string(char *string,struct List *numberList,struct List *operatorList)
 {
 	for (char *p = string; *p != '\0';)
 	{
-		/* Slår ihop talet. */
+		/* Merges the numbers into one. */
 		if (isdigit(*p))
 		{
 			int numberSize = 0;
 			for (; isdigit(*p); numberSize++,p++);
 			add_first(numberList,to_number(p-numberSize,p));
 		}
-		/* Om det är en operand. */
+		/* If it is an operator. */
 		else if (is_operator(*p))
 		{
 			if (operator_value(*p) < operator_value(get_first(operatorList)))
@@ -29,7 +50,11 @@ int split_string(char *string,struct List *numberList,struct List *operatorList)
 	return 1;
 }
 
-/* Gör om en sträng till ett heltal. */
+/*
+ * Function: to_number
+ * Usage: Turns a string into an integer.
+ * ---------------------------------------
+ */
 int to_number(char *begin,char *end)
 {
 	int sum = 0,i = pow(10,end-begin-1);
@@ -38,7 +63,11 @@ int to_number(char *begin,char *end)
 	return sum;
 }
 
-/* Kollar teckent verkligen är en operator. */
+/*
+ * Function: is_operator
+ * Usage: Checks if the char is an vaild operator.
+ * ------------------------------------------------
+ */
 int is_operator(const int op)
 {
 	int operators[] = {'+','-','*','/'};
@@ -49,7 +78,11 @@ int is_operator(const int op)
 	return 0;
 }
 
-/* Plockar fram värdet på en operator. */
+/*
+ * Function: operator_value
+ * Usage: Returns the value of the operator.
+ * ------------------------------------------
+ */
 int operator_value(const int operator)
 {
 	if (operator == '+' || operator == '-' || operator == 0)
@@ -57,7 +90,11 @@ int operator_value(const int operator)
 	return 1;
 }
 
-/* Beräknar första och andra talet i stacken med första operatorn i stacken. */
+/*
+ * Function: calculate
+ * Usage: Calculates a value.
+ * ---------------------------
+ */
 int calculate(struct List *numberList,struct List *operatorList)
 {
 	int first = get_first(numberList); //Sist in, först ut.
@@ -78,9 +115,6 @@ int calculate(struct List *numberList,struct List *operatorList)
 			if (first == 0)
 			{
 				fprintf(stderr,"Can't divide by zero!");
-				/* Borde inte göra exit() här, men jag vet inte riktigt hur jag ska göra
-				 * error hantering bra ifrån denna funktionen, pga. 0 och -1 kan vara riktiga
-				 * värden som inte behöver betyda fel. */
 				exit(1);
 			}
 			return second / first;
@@ -91,7 +125,11 @@ int calculate(struct List *numberList,struct List *operatorList)
 	return 0;
 }
 
-/* Beräknar ihop allt i stacken. */
+/*
+ * Function: combined_calculate
+ * Usage: Calculate everything.
+ * ------------------------------
+ */
 void combined_calculate(struct List *numberList,struct List *operatorList)
 {
 	while (numberList->_size && operatorList->_size)

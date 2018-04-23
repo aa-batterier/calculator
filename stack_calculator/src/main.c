@@ -1,5 +1,25 @@
+/*
+ * Information about sourcedevelopment.
+ * -------------------------------------
+ *  Initial creator: Andreas Johansson.
+ *  Date created: 21-04-2018
+ *  Last updated by: Andreas Johansson.
+ *  Date for update: 21-04-2018
+ */
+
+/*
+ * File: main.c 
+ * --------------
+ *  Contians the main function for this program.
+ */
+
 #include "calculator.h" 
 
+/*
+ * Function: main
+ * Usage: It's the main function.
+ * ------------------------------
+ */
 int main(int argc,char **argv)
 {
 	if (argc <= 1)

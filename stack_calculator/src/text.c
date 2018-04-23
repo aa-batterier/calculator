@@ -1,38 +1,33 @@
+/*
+ * Information about sourcedevelopment.
+ * -------------------------------------
+ *  Initial creator: Andreas Johansson.
+ *  Date created: 21-04-2018
+ *  Last updated by: Andreas Johansson.
+ *  Date for update: 21-04-2018
+ */
+
+/*
+ * File: text.c 
+ * --------------
+ *  Containes the functions which handles and
+ *  controlls the text in this program.
+ */
+
 #include "calculator.h"
 
-/*int read_line(char *a,int n)
-{
-	if (fgets(a,n,stdin) == NULL)
-		return 0;
-	if (!remove_nl(a))
-		skip_line();
-	return 1;
-}
-
-int remove_nl(char *a)
-{
-	int i = strlen(a)-1;
-	if (a[i] == '\n')
-	{
-		a[i] = '\0';
-		return 1;
-	}
-	return 0;
-}
-
-int skip_line(void)
-{
-	int c;
-	while ((c = getchar()) != '\n' && c != EOF);
-}*/
-
-/* Slår ihop alla argument till en stor sträng. */
+/*
+ * Function: combine_arg
+ * Usage: Combines all the arguments.
+ * -----------------------------------
+ */
 char *combine_arg(int argc,char **argv)
 {
 	int stringSize = 1;
 	char *string = (char*)malloc(stringSize);
 	string[stringSize] = '\0';
-	/* Kör med 1 som start, pga. vill inte ha med programmets namn. */
+	/* Start with 1 because I don't want the name of the program
+	 * in the combined agrument string. */
 	for (int i = 1; i < argc; i++)
 	{
 		int argLen = strlen(argv[i]);
@@ -44,7 +39,11 @@ char *combine_arg(int argc,char **argv)
 	return string;
 }
 
-/* Tar bort alla vita tecken från strängen. */
+/*
+ * Function: remove_white
+ * Usage: Removes all the whitespaces.
+ * ------------------------------------
+ */
 void remove_white(char *string)
 {
 	int i = 0;
@@ -63,7 +62,11 @@ void remove_white(char *string)
 	string = (char*)realloc(string,i);
 }
 
-/* Tar bort strängen med alla argument i. */
+/*
+ * Function: remove_arg_string
+ * Usage: Removes the combined arguments.
+ * ---------------------------------------
+ */
 void remove_arg_string(char *string)
 {
 	assert(string != NULL);
