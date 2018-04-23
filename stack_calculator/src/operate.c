@@ -57,8 +57,8 @@ int split_string(char *string,struct List *numberList,struct List *operatorList)
  */
 int to_number(char *begin,char *end)
 {
-	int sum = 0,i = pow(10,end-begin-1);
-	for (char *p = begin; p < end; i /= 10,p++)
+	int sum = 0,i = pow(10,end-begin);
+	for (char *p = begin; p <= end; i /= 10,p++)
 		sum += (*p-'0')*i;
 	return sum;
 }
