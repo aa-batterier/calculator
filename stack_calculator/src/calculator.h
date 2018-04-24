@@ -44,15 +44,14 @@ struct List
  * ---------------------
  *  Contains all the information the node needs.
  *  _next points to the next node in the stack.
- *  I changed the _data to an int from a void*
- *  because it's easier to handle an int, also the operators
- *  can be stored in an int. For an update I would change this
- *  to a double.
+ *  I changed the _data to a double from a void*
+ *  because it's easier to handle a double, also the operators
+ *  can be stored in a double.
  */
 struct Node
 {
 	struct Node *_next;
-	int _data;
+	double _data;
 };
 
 /* Function prototypes. */
@@ -78,7 +77,7 @@ struct List *new_list(void);
  *  to the function. It returns a pointer
  *  to the new node.
  */
-struct Node *new_node(int data);
+struct Node *new_node(double data);
 
 /*
  * Function: add_first
@@ -86,7 +85,7 @@ struct Node *new_node(int data);
  * -------------------------------------------------
  *  add_first creates and adds a new node first in the list.
  */
-void add_first(struct List *list,int data);
+void add_first(struct List *list,double data);
 
 /*
  * Function: remove_first
@@ -104,7 +103,7 @@ void remove_first(struct List *list);
  *  if there doesn't exist a first node get_first
  *  returns 0.
  */
-int get_first(struct List *list);
+double get_first(struct List *list);
 
 /*
  * Function: remove_list
@@ -160,12 +159,12 @@ int split_string(char *string,struct List *numberList,struct List *operatorList)
 
 /*
  * Function: to_number
- * Usage: Turns a string into an integer.
+ * Usage: Turns a string into a float number.
  * ---------------------------------------
- *  to_number turns a string which start at begin and ends before end into an integer which it
- *  then returns.
+ *  to_number turns a string which start at begin and ends before end into a float number
+ *  which it then returns.
  */
-int to_number(char *begin,char *end);
+double to_number(char *begin,char *end);
 
 /*
  * Function: is_operator
@@ -174,7 +173,7 @@ int to_number(char *begin,char *end);
  *  is_operator checks if the char(I use an int(explained in Node)) is one of the
  *  four vaild operators: +, -, *, and /. is_operator returns 1 on success and 0 on failure.
  */
-int is_operator(const int op);
+int is_operator(const char op);
 
 /*
  * Function: operator_value
@@ -183,7 +182,7 @@ int is_operator(const int op);
  *  operator_value returns the value of the operator specified in the parameters.
  *  The more important operators has heigher value.
  */
-int operator_value(const int operator);
+int operator_value(const double op);
 
 /*
  * Function: calculate
@@ -194,7 +193,7 @@ int operator_value(const int operator);
  *  Because 0 and -1 is vailed returns, I have choosen to run exit() when trying
  *  to divid by zero.
  */
-int calculate(struct List *numberList,struct List *operatorList);
+double calculate(struct List *numberList,struct List *operatorList);
 
 /*
  * Function: combined_calculate

@@ -33,7 +33,7 @@ struct List *new_list(void)
  * Usage: Creates a new node.
  * ---------------------------
  */
-struct Node *new_node(int data)
+struct Node *new_node(double data)
 {
 	struct Node *newNode = (struct Node*)malloc(sizeof(struct Node));
 	*newNode = (struct Node){NULL,data};
@@ -45,7 +45,7 @@ struct Node *new_node(int data)
  * Usage: Adds a new node to the front of the list.
  * -------------------------------------------------
  */
-void add_first(struct List *list,int data)
+void add_first(struct List *list,double data)
 {
 	struct Node *newNode = new_node(data);
 	newNode->_next = list->_first;	
@@ -72,7 +72,7 @@ void remove_first(struct List *list)
  * Usage: Returns the value of the first node.
  * --------------------------------------------
  */
-int get_first(struct List *list)
+double get_first(struct List *list)
 {
 	//assert(list->_first != NULL);
 	if (list->_first != NULL)

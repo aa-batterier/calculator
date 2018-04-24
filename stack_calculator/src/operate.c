@@ -27,10 +27,10 @@ int split_string(char *string,struct List *numberList,struct List *operatorList)
 	for (char *p = string; *p != '\0';)
 	{
 		/* Merges the numbers into one. */
-		if (isdigit(*p))
+		if (isdigit(*p) || *p == '.')
 		{
 			int numberSize = 0;
-			for (; isdigit(*p); numberSize++,p++);
+			for (; isdigit(*p) || *p == '.'; numberSize++,p++);
 			add_first(numberList,to_number(p-numberSize,p));
 		}
 		/* If it is an operator. */
@@ -55,6 +55,7 @@ int split_string(char *string,struct List *numberList,struct List *operatorList)
  * Usage: Turns a string into an integer.
  * ---------------------------------------
  */
+/*
 int to_number(char *begin,char *end)
 {
 	//int sum = 0,i = pow(10,end-begin);
@@ -64,15 +65,36 @@ int to_number(char *begin,char *end)
 		sum += (*p-'0')*i;
 	return sum;
 }
+*/
+
+/*
+ * Function: to_number
+ * Usage: Turns a string into a float number.
+ * -------------------------------------------
+ */
+double to_number(char *begin,char *end)
+{
+	double beforePoint = 0;
+	for (char *p = begin; *p != '.' && p < end; p++,beforePoint++);
+	double sum = 0,i = pow(10.0,beforePoint-1);
+	for (char *p = begin; p < end; i /= 10.0,p++)
+	{
+		if (*p == '.')
+			i *= 10.0;
+		else
+			sum += (*p-'0')*i;
+	}
+	return sum;
+}
 
 /*
  * Function: is_operator
  * Usage: Checks if the char is an vaild operator.
  * ------------------------------------------------
  */
-int is_operator(const int op)
+int is_operator(const char op)
 {
-	int operators[] = {'+','-','*','/'};
+	char operators[] = {'+','-','*','/'};
 	/* Borde implementera binär sökning här. */
 	for (int i = 0; i < 4; i++)
 		if (operators[i] == op)
@@ -85,9 +107,9 @@ int is_operator(const int op)
  * Usage: Returns the value of the operator.
  * ------------------------------------------
  */
-int operator_value(const int operator)
+int operator_value(const double op)
 {
-	if (operator == '+' || operator == '-' || operator == 0)
+	if ((int)op == '+' || (int)op == '-' || (int)op == 0)
 		return 0;
 	return 1;
 }
@@ -97,13 +119,13 @@ int operator_value(const int operator)
  * Usage: Calculates a value.
  * ---------------------------
  */
-int calculate(struct List *numberList,struct List *operatorList)
+double calculate(struct List *numberList,struct List *operatorList)
 {
-	int first = get_first(numberList); //Sist in, först ut.
+	double first = get_first(numberList);
 	remove_first(numberList);
-	int second = get_first(numberList); //Först in, sist ut.
+	double second = get_first(numberList);
 	remove_first(numberList);
-	int operator = get_first(operatorList);
+	int operator = (int)get_first(operatorList);
 	remove_first(operatorList);
 	switch(operator)
 	{
@@ -114,7 +136,7 @@ int calculate(struct List *numberList,struct List *operatorList)
 		case '*':
 			return first * second;
 		case '/':
-			if (first == 0)
+			if (fabs(first-0) < 1e-10)
 			{
 				fprintf(stderr,"Can't divide by zero!");
 				exit(1);

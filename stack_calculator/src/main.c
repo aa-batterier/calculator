@@ -36,7 +36,7 @@ int main(int argc,char **argv)
 	}
 	remove_arg_string(string);
 	combined_calculate(numberList,operatorList);
-	printf(" = %d\n",get_first(numberList));
+	printf(" = %g\n",get_first(numberList));
 	remove_list(numberList);
 	remove_list(operatorList);
 	exit(0);
