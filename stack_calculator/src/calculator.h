@@ -24,6 +24,8 @@
 #include <ctype.h>
 #include <assert.h>
 
+#define MAX 1024
+
 /* Typedefinitions. */
 
 /*
@@ -115,6 +117,13 @@ double get_first(struct List *list);
  */
 void remove_list(struct List *list);
 
+/*
+ * Function: clean_list
+ * Usage: Cleans the list.
+ * ------------------------
+ */
+void clean_list(struct List *list);
+
 /* text.c */
 
 /*
@@ -144,6 +153,27 @@ void remove_white(char *string);
  *  containing the combined arguments.
  */
 void remove_arg_string(char *string);
+
+/*
+ * Function: read_line
+ * Usage: Reads a line from stdin.
+ * --------------------------------
+ */
+int read_line(char *string,int len);
+
+/*
+ * Function: remove_nl
+ * Usage: Removes new line.
+ * -------------------------
+ */
+int remove_nl(char *string);
+
+/*
+ * Function: skip_line
+ * Usage: Skips a line.
+ * ---------------------
+ */
+void skip_line(void);
 
 /* operate.c */
 

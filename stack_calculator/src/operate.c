@@ -36,6 +36,12 @@ int split_string(char *string,struct List *numberList,struct List *operatorList)
 		/* If it is an operator. */
 		else if (is_operator(*p))
 		{
+			if (*p == ')')
+			{
+				combined_calculate(numberList,operatorList);
+				p++;
+				continue;
+			}
 			if (operator_value(*p) < operator_value(get_first(operatorList)))
 				add_first(numberList,calculate(numberList,operatorList));
 			add_first(operatorList,*p);
@@ -49,23 +55,6 @@ int split_string(char *string,struct List *numberList,struct List *operatorList)
 	}
 	return 1;
 }
-
-/*
- * Function: to_number
- * Usage: Turns a string into an integer.
- * ---------------------------------------
- */
-/*
-int to_number(char *begin,char *end)
-{
-	//int sum = 0,i = pow(10,end-begin);
-	int sum = 0,i = pow(10,end-begin-1);
-	//for (char *p = begin; p <= end; i /= 10,p++)
-	for (char *p = begin; p < end; i /= 10,p++)
-		sum += (*p-'0')*i;
-	return sum;
-}
-*/
 
 /*
  * Function: to_number
@@ -94,9 +83,8 @@ double to_number(char *begin,char *end)
  */
 int is_operator(const char op)
 {
-	char operators[] = {'+','-','*','/'};
-	/* Borde implementera binär sökning här. */
-	for (int i = 0; i < 4; i++)
+	char operators[] = {'+','-','*','/','^','(',')'};
+	for (int i = 0; i < 7; i++)
 		if (operators[i] == op)
 			return 1;
 	return 0;
@@ -136,12 +124,15 @@ double calculate(struct List *numberList,struct List *operatorList)
 		case '*':
 			return first * second;
 		case '/':
+			// Skulle vara kul att implementera try catch i c här.
 			if (fabs(first-0) < 1e-10)
 			{
 				fprintf(stderr,"Can't divide by zero!");
 				exit(1);
 			}
 			return second / first;
+		case '^':
+			return pow(second,first);
 		default:
 			fprintf(stderr,"No opeator match.\n");
 			exit(1);
@@ -157,5 +148,9 @@ double calculate(struct List *numberList,struct List *operatorList)
 void combined_calculate(struct List *numberList,struct List *operatorList)
 {
 	while (numberList->_size && operatorList->_size)
+	{
+		if ((int)get_first(operatorList) == '(')
+			break;
 		add_first(numberList,calculate(numberList,operatorList));
+	}
 }

@@ -92,3 +92,15 @@ void remove_list(struct List *list)
 		remove_first(list);
 	free(list);
 }
+
+/*
+ * Function: clean_list
+ * Usage: Cleans the list.
+ * ------------------------
+ */
+void clean_list(struct List *list)
+{
+	assert(list != NULL);
+	while (list->_size)
+		remove_first(list);
+}

@@ -72,3 +72,44 @@ void remove_arg_string(char *string)
 	assert(string != NULL);
 	free(string);
 }
+
+/*
+ * Function: read_line
+ * Usage: Reads a line from stdin.
+ * --------------------------------
+ */
+int read_line(char *string,int len)
+{
+	if (fgets(string,len,stdin) == NULL)
+		return 0;
+	if (!remove_nl(string))
+		skip_line();
+	return 1;
+}
+
+/*
+ * Function: remove_nl
+ * Usage: Removes new line.
+ * -------------------------
+ */
+int remove_nl(char *string)
+{
+	int end = strlen(string)-1;
+	if (string[end] == '\n')
+	{
+		string[end] = '\0';
+		return 1;
+	}
+	return 0;
+}
+
+/*
+ * Function: skip_line
+ * Usage: Skips a line.
+ * ---------------------
+ */
+void skip_line(void)
+{
+	int c;
+	while ((c = getchar()) != '\0' && c != EOF);
+}
