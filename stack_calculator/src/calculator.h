@@ -121,6 +121,8 @@ void remove_list(struct List *list);
  * Function: clean_list
  * Usage: Cleans the list.
  * ------------------------
+ *  clean_list cleans the list. It does the same as remove_list
+ *  but in the does not remove the list, just the lists nodes.
  */
 void clean_list(struct List *list);
 
@@ -158,6 +160,8 @@ void remove_arg_string(char *string);
  * Function: read_line
  * Usage: Reads a line from stdin.
  * --------------------------------
+ *  read_line reads a line (max len char) from standard input
+ *  and writes it to the string parameter.
  */
 int read_line(char *string,int len);
 
@@ -165,6 +169,8 @@ int read_line(char *string,int len);
  * Function: remove_nl
  * Usage: Removes new line.
  * -------------------------
+ *  remove_nl removes the new line char in the end
+ *  of the string.
  */
 int remove_nl(char *string);
 
@@ -172,6 +178,7 @@ int remove_nl(char *string);
  * Function: skip_line
  * Usage: Skips a line.
  * ---------------------
+ *  skip_line skips over a line.
  */
 void skip_line(void);
 
