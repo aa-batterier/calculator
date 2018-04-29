@@ -44,7 +44,10 @@ int main(int argc,char **argv)
 			char *loopString = (char*)malloc(MAX);
 			printf("?> ");
 			if (!read_line(loopString,MAX))
+			{
+				printf("\n");
 				goto end;
+			}
 			remove_white(loopString);
 			loopString = (char*)realloc(loopString,strlen(loopString)+1);
 			if (!split_string(loopString,numberList,operatorList))

@@ -97,7 +97,7 @@ int is_operator(const char op)
  */
 int operator_value(const double op)
 {
-	if ((int)op == '+' || (int)op == '-' || (int)op == 0)
+	if ((int)op == '+' || (int)op == '-' || (int)op == 0 || (int)op == '(')
 		return 0;
 	return 1;
 }
@@ -109,12 +109,11 @@ int operator_value(const double op)
  */
 double calculate(struct List *numberList,struct List *operatorList)
 {
+	int operator = (int)get_first(operatorList);
+	remove_first(operatorList);
 	double first = get_first(numberList);
 	remove_first(numberList);
 	double second = get_first(numberList);
-	remove_first(numberList);
-	int operator = (int)get_first(operatorList);
-	remove_first(operatorList);
 	switch(operator)
 	{
 		case '+':
@@ -150,7 +149,10 @@ void combined_calculate(struct List *numberList,struct List *operatorList)
 	while (numberList->_size && operatorList->_size)
 	{
 		if ((int)get_first(operatorList) == '(')
+		{
+			remove_first(operatorList);
 			break;
+		}
 		add_first(numberList,calculate(numberList,operatorList));
 	}
 }
