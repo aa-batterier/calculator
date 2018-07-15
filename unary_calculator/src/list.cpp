@@ -1,6 +1,6 @@
 #include "list.h"
 
-List::List(const List& copy)
+List::List(const List& copy) : _size(copy._size),_capacity(copy._capacity)
 {
 	if (copy._list != nullptr)
 	{
@@ -40,10 +40,10 @@ const List& List::operator =(List&& move)
 	return *this;
 }
 
-const List& List::operator +(const List& right) const
+const List List::operator +(const List& right) const
 {
 	const int newSize = _size + right._size,newCapacity = _capacity + right._capacity;
-	const char *newList = new char[newCapacity];
+	char *newList = new char[newCapacity];
 	int i = 0;
 	for (; i < _size; i++)
 		newList[i] = _list[i];
@@ -62,7 +62,7 @@ void List::push_back(const char x)
 		if (tmp != nullptr)
 		{
 			for (int i = 0; i < _size; i++)
-				tmp[i] = _list[i];
+				_list[i] = tmp[i];
 			delete [] tmp;
 		}
 	}

@@ -1,6 +1,6 @@
 #include "unary.h"
 
-friend std::istream& Unary::operator >>(std::istream& input,Unary& unary)
+std::istream& operator >>(std::istream& input,Unary& unary)
 {
 	int number;
 	input >> number;
@@ -8,17 +8,25 @@ friend std::istream& Unary::operator >>(std::istream& input,Unary& unary)
 	return input;
 }
 
-friend std::ostream& Unary::operator <<(std::ostrema& output,const Unary& unary)
+std::ostream& operator <<(std::ostream& output,const Unary& unary)
 {
 	output << unary.intNumber();
 	return output;
 }
 
-const Unary& Unary::pow(const int number,const int exponent) const
+const Unary Unary::pow(const Unary& exponent) const
+{
+	int sum = 1;
+	for (int i = 0; i < exponent._number.size(); i++)
+		sum += sum * _number.size();
+	return Unary(sum);
+}
+
+const Unary Unary::pow(const int exponent) const
 {
 	int sum = 1;
 	for (int i = 0; i < exponent; i++)
-		sum += sum * number;
+		sum += sum * _number.size();
 	return Unary(sum);
 }
 

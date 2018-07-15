@@ -3,19 +3,19 @@
 
 int main(void)
 {
-	std::string op;
-	Unary number1,number2;
 	for (;;)
 	{
-		std::cout << "Write the first number: ";
-		std::cin >> number1;
+		std::string op;
+		Unary number1,number2;
 		std::cout << "Write in operator (to quit write quit): ";
 		std::cin >> op;
-		std::cout << "Write the second number: ";
-		std::cin >> number2;
 		if (op == "quit")
 			break;
-		else if (op == "+")
+		std::cout << "Write the first number: ";
+		std::cin >> number1;
+		std::cout << "Write the second number: ";
+		std::cin >> number2;
+		if (op == "+")
 		{
 			std::cout << number1 + number2 << std::endl;
 			continue;
@@ -37,7 +37,7 @@ int main(void)
 		}
 		else if (op == "e")
 		{
-			std::cout << pow(number1,number2) << std::endl;
+			std::cout << number1.pow(number2) << std::endl;
 			continue;
 		}
 	}
