@@ -1,19 +1,19 @@
-all: bin/calculator
+all: calculator
 
-lib/list.o: src/list.c src/calculator.h
-	gcc -Wall -g -c -o $@ src/list.c
+list.o: list.c calculator.h
+	gcc -Wall -g -c -o $@ list.c
 
-lib/main.o: src/main.c src/calculator.h
-	gcc -Wall -g -c -o $@ src/main.c
+main.o: main.c calculator.h
+	gcc -Wall -g -c -o $@ main.c
 
-lib/operate.o: src/operate.c src/calculator.h
-	gcc -Wall -g -c -o $@ src/operate.c
+operate.o: operate.c calculator.h
+	gcc -Wall -g -c -o $@ operate.c
 
-lib/text.o: src/text.c src/calculator.h
-	gcc -Wall -g -c -o $@ src/text.c -lm
+text.o: text.c calculator.h
+	gcc -Wall -g -c -o $@ text.c -lm
 
-bin/calculator: lib/list.o lib/main.o lib/operate.o lib/text.o src/calculator.h
-	gcc -Wall -g -o $@ lib/list.o lib/main.o lib/operate.o lib/text.o -lm
+calculator: list.o main.o operate.o text.o calculator.h
+	gcc -Wall -g -o $@ list.o main.o operate.o text.o -lm
 
 clean:
-	rm -v bin/* lib/*
+	rm -v calculator *.o 

@@ -1,4 +1,7 @@
-all: bin/unarycalculator
+all: unarycalculator
 
-bin/unarycalculator: src/list.cpp src/list.h src/main.cpp src/unary.cpp src/unary.h
-	g++ -Wall -g -o $@ src/list.cpp src/main.cpp src/unary.cpp -std=c++17
+unarycalculator: list.cpp list.h main.cpp unary.cpp unary.h
+	g++ -Wall -g -o $@ list.cpp main.cpp unary.cpp -std=c++17
+
+clean:
+	rm -rv unarycalculator
